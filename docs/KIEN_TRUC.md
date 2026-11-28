@@ -1,6 +1,6 @@
 # Kiến trúc và kế hoạch phát triển ứng dụng Tập viết S Pen
 
-Bản tài liệu 0.7 · Cập nhật 29/11/2026 · Áp dụng cho mã nguồn từ bản 0.13.0
+Bản tài liệu 0.8 · Cập nhật 28/11/2026 · Áp dụng cho mã nguồn từ bản 0.14.0
 
 Tài liệu này mô tả ứng dụng được tổ chức thế nào, dữ liệu nằm ở đâu, và các bản sắp tới sẽ làm gì. Ai muốn góp ý hay góp mã thì đọc tài liệu này trước.
 
@@ -85,6 +85,15 @@ Thay đổi chính ở bản 0.11: **lớp 2 nhận một gói cấu hình `cfg`
 - Màn Tạo vở dựng `cfg` từ các nút chọn rồi gọi `exportPdf(cfg)`.
 - Đường link chứa `cfg`, nên mở link ra là có đúng cấu hình.
 - GitHub gọi `exportPdf(cfg)` với từng cấu hình chuẩn để tạo sẵn bộ vở.
+
+### 4.1. Gắn sự kiện và chính sách bảo mật nội dung (bản 0.14)
+
+- Mọi nút và ô nhập không viết sự kiện trực tiếp trong HTML mà dùng thuộc tính `data-action="tên"` (click), `data-doi` (change), `data-nhap` (input), `data-mo` (toggle của `<details>`) và `data-nhan` (pointerdown).
+- Hàm xử lý đặt trong `HANH_DONG.tên = (el, e) => …`. Bộ gắn sự kiện chung nằm ở đầu `src/ui/khu.js`; các nút cố định trong `src/app.html` có hàm đặt tại `src/ui/nut-chung.js`.
+- Giá trị riêng của từng nút truyền qua thuộc tính `data-…` riêng, không ghép vào chuỗi mã; giá trị chuỗi luôn bọc `escHtml`.
+- Không được viết thuộc tính `on…=` trong HTML hay chuỗi HTML; `node tools/kiem-hanh-dong.js` (chạy trong CI) báo lỗi nếu còn `on…=` hoặc nếu có tên hành động chưa có hàm (hay gán trùng).
+- Khi gộp file, `tools/build.js` tính mã băm SHA-256 của khối `<script>` duy nhất và ghi thẻ CSP vào vị trí `<!-- @csp -->` trong `src/app.html`.
+- Ứng dụng phải giữ đúng một khối `<script>` để mã băm hợp lệ; `style="…"` viết trực tiếp vẫn được phép.
 
 ## 5. Dữ liệu
 
@@ -204,7 +213,7 @@ Chưa làm: `ghichep`, `font`, `z`, `gray`, `a5x2`. Trường `links` chưa đ�
 - Mở link: nếu kiểu chữ trong link khác kiểu đang mở thì đổi kiểu rồi tải lại trang (giữ link); sau đó mở đúng bài, mở màn Xuất PDF đã điền sẵn tùy chọn, rồi xóa phần `#cfg=` khỏi thanh địa chỉ. Link hỏng hoặc cấu hình sai thì báo bằng lời dễ hiểu, app vẫn mở bình thường.
 - Màn **Tạo tập viết PDF** (thay màn Xuất PDF cũ, `openPdfModal` trong `src/engine/pdf-export.js`) chọn được: nội dung (Bài này, Chọn bài, Cả phần, Cả giáo trình, Luyện thêm, Bài tự do, Tự gõ), khổ giấy (6 khổ có sẵn và Tự nhập theo mm), Tô hay Chép, kiểu dòng kẻ, lề thanh công cụ, mũi tên. Có nút tạo PDF và nút chép đường link.
 
-### 5.4. Phông chữ của người dùng (bản 0.14)
+### 5.4. Phông chữ của người dùng (bản 0.15)
 
 | Mục | Cách làm |
 |---|---|
@@ -303,7 +312,12 @@ Người dùng vẫn nhận **một tệp HTML** như hiện nay.
 | | Font Sao Mai Tập Viết (hai bản nét liền và nét đứt, giấy phép SIL OFL 1.1, Việt hóa đầy đủ) | Dùng được trong Word, LibreOffice, Canva; đủ 240 ký tự |
 | | Thêm 13 khổ trang cho máy đọc sách (BOOX, Kindle Scribe, Supernote), máy tính bảng (iPad, Galaxy Tab) và giấy B5, Letter | Mở vừa màn hình giữ đúng 1 ô li = 2 mm |
 | | Nút "Nhìn rồi tự viết" trong Xem viết chậm ở cả ba kiểu chữ | Ẩn chữ mẫu sau 2 giây để tự viết theo trí nhớ |
-| **0.14** | Vẽ thêm khuyết trên cho l, h, k ở chữ thanh đậm | Chữ mẫu đúng kiểu viết thanh đậm truyền thống |
+| **0.14** *(đã xong)* | Giao diện mới 4 khu (Luyện viết, Giáo trình, Tập viết PDF, Hồ sơ), thanh bên ẩn hiện được; bỏ hàng 3 thẻ cũ | Khu đang mở tô sáng; máy tính bảng/máy tính dùng thanh dọc, điện thoại dùng thanh dưới |
+| | Không gian viết rộng tối đa: chế độ Toàn trang viết, gộp thanh công cụ viết vào thanh bên hoặc thanh nổi, bảng Xem dạng ngăn kéo (tự đóng khi đặt viết, ghim được) | Trang viết chiếm gần trọn bề ngang; chọn Tô/Chép tự ẩn bảng Xem |
+| | Viết lại Gôm cho nhanh hơn, thêm kiểu Khoanh vùng, tùy chọn Gôm xong tự quay về viết và Xóa cả trang (dùng chung cả trong hộp viết phóng to) | Trang 400 nét, 240 điểm gôm giảm từ khoảng 24 giây xuống khoảng 30 mili giây |
+| | Giáo trình, Hồ sơ, Tập viết PDF mở thành trang đầy đủ; xem trước trang PDF đầu tiên, nút tải PDF trên từng bài, danh sách khổ chia nhóm (BOOX 7" lên đầu nhóm Máy đọc sách) | Xem trước cập nhật theo mọi lựa chọn, xếp hàng không chạy chồng khi tạo PDF |
+| | Bảo mật: kiểm đường link cấu hình, file sao lưu và dữ liệu trong máy; chuyển toàn bộ 148 thuộc tính `on…=` sang `data-action`/`HANH_DONG`; bật CSP bằng mã băm SHA-256 và kiểm tự động (`tools/kiem-hanh-dong.js`) | Trình duyệt chặn mã chèn qua link, sao lưu hay `onclick`; `kiem-hanh-dong.js` và `build.js --check` đạt |
+| **0.15** | Vẽ thêm khuyết trên cho l, h, k ở chữ thanh đậm | Chữ mẫu đúng kiểu viết thanh đậm truyền thống |
 | | Nạp font của người dùng (.ttf, .otf) | Font đủ dấu xuất tập viết PDF đúng; font thiếu dấu được báo |
 | | Trang ghi chép (kẻ dòng, kẻ chấm, kiểu Cornell) | Đạt danh sách kiểm tra ở mục 10 trên các khổ chuẩn |
 | | Trang kiểm tra; in 2 trang A5 trên 1 tờ A4; thử trên reMarkable, Boox, iPad | Đạt mục 10, cắt đôi đúng khổ A5 |

@@ -1,5 +1,54 @@
 # Những thay đổi qua từng bản
 
+## Bản 0.14.0 (28/11/2026): giao diện mới 4 khu, gôm nhanh và khoanh vùng, xem trước PDF, tăng cường bảo mật
+
+Bản này làm mới toàn bộ giao diện thành 4 khu rõ ràng (**Luyện viết**, **Giáo trình**, **Tập viết PDF**, **Hồ sơ**) để dành tối đa chỗ cho trang viết, thêm chế độ **Toàn trang viết** và bảng **Xem** dạng ngăn kéo. Công cụ **Gôm** được viết lại cho nhanh hơn rõ rệt kèm kiểu xóa **Khoanh vùng**, màn **Tập viết PDF** có thêm khung xem trước trang và nút tải nhanh trên từng bài. Đồng thời, ứng dụng tăng cường nhiều lớp bảo mật cho đường link cấu hình, file sao lưu và dữ liệu lưu trên máy.
+
+### Giao diện mới 4 khu và không gian viết rộng hơn
+
+- **Thanh điều hướng 4 khu (Luyện viết, Giáo trình, Tập viết PDF, Hồ sơ):**
+  - Trên máy tính bảng và máy tính, thanh nằm dọc bên trái (bên phải khi bật chế độ tay trái) và gộp chung 5 nút công cụ viết (**Trước**, **Viết**, **Gôm**, **Hoàn tác**, **Sau**) ở phía dưới thành một thanh duy nhất (màn hình thấp tự ẩn chữ, chỉ giữ biểu tượng). Nút `‹` ở đầu thanh giúp ẩn thanh bên cho trang viết rộng ra, kèm một nút nhỏ ở mép để hiện lại; ứng dụng nhớ trạng thái này cho lần mở sau. Khi thanh bên ẩn, 5 nút viết chuyển thành một thanh nhỏ nổi ở cạnh dưới trang.
+  - Trên điện thoại dọc, thanh 4 khu nằm dưới cùng, hàng công cụ viết nằm ngay phía trên; các bảng mở ra nằm phía trên thanh 4 khu, không bị che.
+  - Khu đang mở được tô sáng; đóng bảng thì tự quay về **Luyện viết**.
+- **Chế độ Toàn trang viết** (nút bốn góc trên thanh đầu): ẩn thanh đầu, thanh bên và bảng Xem, chỉ giữ lại trang viết cùng thanh công cụ nổi ở cạnh dưới; có nút **Thoát** ở góc trên (bên phải, hoặc bên trái nếu bật chế độ tay trái).
+- **Bảng Xem dạng ngăn kéo trên màn hình rộng:** mặc định ẩn để trang viết chiếm trọn bề ngang. Bấm **Xem** hoặc tiêu đề bài thì bảng trượt ra đè lên trang viết mà không làm trang hẹp lại; đặt viết xuống trang (kể cả trong hộp viết phóng to) là bảng tự đóng. Chọn **Tô** hoặc **Chép** thì bảng cũng tự ẩn. Có nút **Ghim** để giữ bảng nằm cố định cạnh trang mỗi khi mở (ứng dụng nhớ lựa chọn này). Thẻ Mục lục được bỏ khỏi bảng Xem vì danh sách bài nay nằm trong khu Giáo trình; trên điện thoại, bảng Xem vẫn mở như cũ.
+- **Giáo trình và Hồ sơ mở thành trang đầy đủ** (không còn là bảng trượt từ dưới lên), canh giữa cho dễ đọc, cuối trang có nút **Về trang viết**:
+  - **Giáo trình:** tập trung phần chọn kiểu chữ, tiến độ, **Buổi tập hôm nay**, hàng ô công cụ học (**Bài ôn**, **Luyện thêm**, **Bài tự do**, **Tên và chữ ký**, **Nhập môn**) và danh sách phần, bài học.
+  - **Hồ sơ:** gồm tiến độ, **Nhật ký luyện chữ**, **Kiểm tra trên giấy** và các nhóm cài đặt (**Hiển thị**, **S Pen và thao tác**, **Dữ liệu**).
+- *Lưu ý:* Hàng 3 thẻ cũ (Bài học, Công cụ, Cài đặt) được bỏ hẳn; bạn chuyển khu trực tiếp trên thanh 4 khu. Nút **☰** trên thanh đầu nay mở **Giáo trình**, còn các mục cài đặt, sao lưu và nhật ký nằm trong **Hồ sơ**.
+
+### Gôm nhanh hơn và thêm kiểu Khoanh vùng
+
+- **Gôm nhanh hơn rất nhiều:** thay vì dò lại toàn bộ nét và vẽ lại cả trang sau từng điểm chạm của S Pen (khoảng 240 điểm mỗi giây), ứng dụng gom các điểm gôm trong mỗi khung hình, bỏ qua nhanh các nét nằm ngoài vùng gôm rồi mới vẽ lại một lần; khi kéo nhanh cũng tự bù điểm giữa hai lần chạm để không sót đoạn. Đo trên trang 400 nét với 240 điểm gôm, thời gian giảm từ khoảng 24 giây xuống còn khoảng 30 mili giây.
+- **Bảng Gôm** (chạm nút Gôm lần nữa khi đang dùng Gôm) có đủ **3 kiểu xóa**, kèm một dòng giải thích ngắn cho từng kiểu:
+  - **Xóa từng đoạn:** đưa gôm tới đâu xóa tới đó.
+  - **Xóa cả nét:** chạm vào nét nào là xóa trọn nét đó.
+  - **Khoanh vùng** *(mới)*: vẽ một vòng nét đứt màu đỏ quanh chỗ cần xóa, nhấc viết là các nét nằm phần lớn trong vòng được xóa.
+- Thêm tùy chọn **Gôm xong tự quay về viết** (Bật/Tắt, mặc định Tắt) và nút **Xóa cả trang** (vẫn hỏi xác nhận trước khi xóa).
+- Nhấn giữ nút trên thân S Pen để gôm tạm vẫn chạy như cũ và nhanh hơn nhờ cách gôm mới. **Hộp viết phóng to** cũng dùng chung cách gôm mới, hỗ trợ cả **Khoanh vùng** và tùy chọn **Gôm xong tự quay về viết**.
+
+### Tập viết PDF dạng trang đầy đủ và có xem trước
+
+- **Khu Tập viết PDF mở thành trang đầy đủ**, bổ sung **khung xem trước trang nội dung đầu tiên** vẽ bằng chính bộ tạo PDF, ghi rõ khổ trang, tổng số trang và chú thích khi có mục lục. Khung xem trước tự cập nhật mỗi khi đổi lựa chọn, chọn bài, gõ chữ hay nhập khổ; màn hình rộng đặt xem trước bên phải, màn hình hẹp đặt phía trên.
+- **Nút tải xuống trên từng bài** trong khu **Giáo trình**: bấm vào là mở thẳng trang **Tập viết PDF** của đúng bài đó mà không đổi bài bạn đang luyện.
+- **Chọn khổ trang bằng danh sách thả xuống chia nhóm** (Giấy in, Máy đọc sách, Máy tính bảng, Khác), đưa **BOOX 7" (Go 7, Go Color 7)** lên đầu nhóm Máy đọc sách.
+- Mở đường link cấu hình tập viết nay vào thẳng trang **Tập viết PDF** đầy đủ.
+
+### Bảo mật đường link, file sao lưu và dữ liệu trong máy
+
+- **Chính sách bảo mật nội dung:** trình duyệt chỉ cho chạy đúng mã gốc của ứng dụng (nhận diện bằng mã kiểm riêng khi đóng gói); mọi mã lạ chèn vào qua đường link, file sao lưu bị sửa hay đoạn mã gắn trong trang đều bị chặn. Ứng dụng cũng bị khóa không cho tải gì qua mạng, không nhúng khung ngoài và không gửi biểu mẫu.
+- **Đường link cấu hình tập viết:** chỉ nhận các mục hợp lệ (kích thước tự nhập phải là số, danh sách bài chỉ nhận mã hợp lệ và bỏ trùng tối đa 200 bài, nội dung tự gõ chỉ nhận khi đúng chế độ tự gõ), giới hạn dung lượng sau khi giải nén (64 KB) để link nén không làm treo máy, và tránh tải lại trang lặp mãi nếu trình duyệt không cho lưu.
+- **File sao lưu:** giới hạn dung lượng tối đa 80 MB, chỉ nhận các mục dữ liệu của ứng dụng, bỏ qua mục lạ hoặc hình nhật ký không đúng dạng; kiểm xong toàn bộ file mới ghi vào máy.
+- **Dữ liệu lưu trong máy:** kiểm và ép đúng kiểu trước khi dùng (màu viết, cỡ nét, bán kính gôm, danh sách chữ cần luyện, buổi tập, ngày kiểm tra trên giấy) và lọc ký tự đặc biệt ở tên viết yêu thích, nhãn buổi tập và chú thích nhật ký.
+
+### Sửa lỗi khác
+
+- **Viết, gôm và lật trang:** chốt hết thao tác viết hoặc gôm đang dở trước khi lật trang, đổi bài hay đổi Tô/Chép (tránh phần gôm còn sót rơi sang trang mới); đang gôm bằng ngón tay mà chạm thêm ngón thứ hai để phóng to không còn xóa nhầm hay hỏng hoàn tác; Xóa từng đoạn chỉ sượt mép nét hoặc gôm vào chỗ trống không còn bị ghi thừa; Khoanh vùng nhẹ hơn với S Pen 240 Hz.
+- **Bảng Xem và Toàn trang viết:** sửa lỗi bật Toàn trang viết hoặc đóng bảng Xem đang ghim có thể làm hỏng vùng viết; khi bảng Xem mở chỉ nút Xem sáng, không còn hai nút cùng sáng; lúc bảng Xem mở thì ẩn thanh công cụ nổi và nút mở thanh bên để khỏi che bảng (khi đang ghim thì vẫn giữ các nút này); tắt Chia đôi màn hình lúc bảng Xem đang mở thì bảng đóng hẳn.
+- **Xem trước và tạo PDF:** xếp hàng lần lượt giữa xem trước và tạo file PDF thật để không chạy chồng làm hỏng file hoặc lệch cài đặt; đang tạo PDF thì không chuyển khu hay mở chồng bảng mới; xem trước không còn kẹt ở dòng "Đang dựng trang xem trước…", khi chọn nhiều bài chỉ dựng bài đầu và không làm mất mức phóng to của trang viết.
+- **Hộp viết phóng to và các bảng:** dời thanh công cụ nổi lên trên hộp viết phóng to cho khỏi che chỗ viết; đang mở bảng thì thanh công cụ nổi và nút Thoát không đè lên bảng; đang mở Giáo trình, Hồ sơ hay Tập viết PDF thì tạm ẩn 5 nút viết trong thanh bên để khỏi lỡ tay lật trang bên dưới; mở Nhật ký từ Hồ sơ giữ khu Hồ sơ sáng; mở bảng khác vào chỗ trang Tập viết PDF không còn lộ khung hai cột trống; bảng chọn nhanh viết yêu thích và các bảng mở ra nằm đúng cạnh thanh bên.
+- **Điện thoại, máy đọc sách và cài đặt:** sửa bố cục điện thoại xoay ngang (không còn hai thanh dọc chồng nhau, 4 khu và 5 nút viết vừa một cột, ô đo điểm không bị thanh nổi che) và chừa vùng tai thỏ, chia ô công cụ thành 2 cột trên điện thoại; trên máy đọc sách, khu đang chọn đảo màu rõ hơn và bỏ vạch đen ở mép trên trang; giảm tải khi đang Xem viết chậm hoặc Tự tô từng nét; giữ đúng góc vát tay trái −38° và trạng thái chưa chọn viết yêu thích sau khi tải lại.
+
 ## Bản 0.13.0 (29/11/2026): chữ hoa và font Sao Mai Tập Viết, nối chữ mượt, thêm 13 khổ máy
 
 Kiểu chữ tiểu học từ bản này mang tên **Sao Mai Tập Viết** (nút chọn trong ứng dụng ghi **Sao Mai**), bổ sung đủ **29 chữ hoa** cùng giáo trình 16 bài mới, nối chữ mượt như viết tay, thêm **13 khổ trang** cho máy đọc sách và máy tính bảng, đồng thời phát hành kèm bộ **font Sao Mai Tập Viết** miễn phí để dùng trong Word và các phần mềm soạn thảo.

@@ -24,7 +24,7 @@ Nên mở bằng Chrome hoặc Samsung Internet, rồi chọn **Thêm vào màn 
 </p>
 <p align="center"><sub>Tô · Chép · Xem viết chậm · Tự tô từng nét</sub></p>
 
-> **Bản 0.13.0, đang thử nghiệm.** Ứng dụng đã chạy qua các bài kiểm tra tự động trên Chrome nhưng chưa được nhiều người dùng thử trên máy thật. Cách chấm điểm và độ nhạy khi tự tô từng nét có thể còn phải chỉnh. Bạn dùng thấy chỗ nào chưa ổn, rất mong bạn góp ý.
+> **Bản 0.14.0, đang thử nghiệm.** Ứng dụng đã chạy qua các bài kiểm tra tự động trên Chrome nhưng chưa được nhiều người dùng thử trên máy thật. Cách chấm điểm và độ nhạy khi tự tô từng nét có thể còn phải chỉnh. Bạn dùng thấy chỗ nào chưa ổn, rất mong bạn góp ý.
 
 ---
 
@@ -56,15 +56,16 @@ Mỗi bài đi qua bốn bước: **Xem**, **Tô**, **Chép** và **Bài ôn**. 
 - Nhấn vừa tay là ra nét đậm, không phải đè mạnh làm mòn ngòi S Pen. Chọn được độ nhạy Nhẹ tay, Vừa hoặc Mạnh tay, hay bấm **Đo lực tay của tôi** để ứng dụng canh theo tay bạn.
 - Có 12 màu mực, muốn thì tự pha thêm. Lưu được 4 cây viết hay dùng, nhấn giữ nút Viết để đổi cho nhanh. Nét được làm mượt khi tay hơi run.
 - Bật **Chỉ nhận S Pen** thì tựa cả bàn tay lên màn hình cũng không vẽ bậy. Nút trên thân S Pen đặt được làm gôm, hoàn tác hoặc đổi viết.
+- **Gôm** hỗ trợ 3 kiểu xóa: **Xóa từng đoạn**, **Xóa cả nét** và **Khoanh vùng** (vẽ vòng quanh chỗ cần xóa); có tùy chọn **Gôm xong tự quay về viết** và **Xóa cả trang**, dùng được cả trong hộp viết phóng to.
 - **Hộp viết phóng to:** viết chữ to ở nửa dưới màn hình cho dễ. Viết tới mép thì hộp tự dịch sang phải, và chờ đủ lâu để bạn quay lại bỏ dấu.
-- Chia đôi màn hình trên máy tính bảng. Có chế độ dành cho người thuận tay trái.
+- Giao diện chia 4 khu (**Luyện viết**, **Giáo trình**, **Tập viết PDF**, **Hồ sơ**) với thanh bên ẩn hiện được trên máy tính bảng và máy tính, chế độ **Toàn trang viết**, bảng **Xem** dạng ngăn kéo (tự đóng khi đặt viết, ghim được cạnh trang), và chế độ dành cho người thuận tay trái.
 - Chọn lưới kẻ xiên kiểu Pháp hoặc tập 4 ô li như ở trường.
-- Có 4 màu giấy: Ấm, Sáng, Tối và Đen trắng (hợp với máy đọc sách).
+- Có 4 màu giấy: Ấm, Sáng, Tối và Trắng đen (hợp với máy đọc sách).
 - Ứng dụng đo được chữ bạn nghiêng bao nhiêu độ, nghiêng có đều không, nét có trơn tay không và giống chữ mẫu đến đâu. Mọi phép đo đều làm ngay trên máy.
 
 ### In tập viết và theo dõi việc tập
 
-- Màn **Tạo tập viết PDF** chạy ngay trên máy mà không cần mạng, hỗ trợ khổ giấy A4, sổ A5, reMarkable 2, reMarkable Paper Pro, reMarkable Paper Pro Move, Samsung Notes và **Tự nhập** kích thước theo mm. Bạn có thể chọn một bài, **Chọn bài** theo ý, xuất cả phần, **Cả giáo trình** vào một file có mục lục, hoặc **Tự gõ** nội dung riêng.
+- Khu **Tập viết PDF** chạy ngay trên máy mà không cần mạng, có **xem trước trang đầu tiên** và mở nhanh được từ nút tải xuống trên từng bài trong Giáo trình. Danh sách khổ chia theo nhóm: giấy in (A4, A5, B5, Letter), máy đọc sách (BOOX, reMarkable, Kindle Scribe, Supernote), máy tính bảng (iPad, Galaxy Tab, Samsung Notes) và **Tự nhập** kích thước theo mm. Bạn có thể chọn một bài, **Chọn bài** theo ý, xuất cả phần, **Cả giáo trình** vào một file có mục lục, hoặc **Tự gõ** nội dung riêng.
 - Bấm **Chép đường link cấu hình này** để gửi nguyên bộ lựa chọn (khổ giấy, bài tập, kiểu dòng kẻ, kể cả nội dung Tự gõ) cho người khác. Người nhận mở đường link là tạo được đúng tập viết đó; mọi lựa chọn nằm ngay trong đường link, không gửi lên máy chủ nào.
 - Tập viết xuất ra là PDF dạng vectơ, có nhúng phông chữ. In ra hay phóng to cỡ nào nét cũng sắc, file lại nhẹ, và tìm được chữ trong tập.
 - Ngoài ra còn có buổi tập 15 phút mỗi ngày, luyện viết tên và chữ ký, bài tự soạn, nhật ký luyện chữ, và lời nhắc tự kiểm tra chữ viết trên giấy hai tuần một lần.
@@ -100,7 +101,7 @@ Mỗi bài đi qua bốn bước: **Xem**, **Tô**, **Chép** và **Bài ôn**. 
 
 - Bài viết, tiến độ và cài đặt chỉ nằm trong trình duyệt trên máy bạn, không gửi đi đâu cả.
 - Vì thế, nếu xóa dữ liệu trình duyệt hoặc đổi sang máy khác, bài viết sẽ mất.
-- Thỉnh thoảng bạn nên sao lưu: vào **☰ Danh mục → Cài đặt → Dữ liệu → Sao lưu bài viết ra file**. Khi cần lấy lại, chọn **Khôi phục từ file sao lưu**.
+- Thỉnh thoảng bạn nên sao lưu: vào **Hồ sơ → Dữ liệu → Sao lưu bài viết ra file**. Khi cần lấy lại, chọn **Khôi phục từ file sao lưu**.
 
 ---
 
