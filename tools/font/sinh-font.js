@@ -72,6 +72,9 @@ function catNetDut(pts, net, ho) {
 const TL = 16;   // nhân tọa độ (đơn vị font) cho Clipper làm việc với số nguyên
 function dungChu(ch, kieu) {
   const h = hinh(ch); if (!h) return null;
+  return new opentype.Glyph({ name: 'u' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0'), unicode: ch.codePointAt(0), advanceWidth: Math.round((h.rong + 2 * BEN) * U), path: dungTuHinh(h, kieu) });
+}
+function dungTuHinh(h, kieu) {
   const X = v => Math.round((v + BEN) * U * TL), Y = v => Math.round(v * U * TL);
   const co = new ClipperLib.ClipperOffset(2, 0.25 * TL), sol = new ClipperLib.Paths();
   const them = (pts, day) => {
@@ -106,15 +109,28 @@ function dungChu(ch, kieu) {
     v.forEach((q, i) => i ? p.lineTo(Math.round(q.X / TL), Math.round(q.Y / TL)) : p.moveTo(Math.round(q.X / TL), Math.round(q.Y / TL)));
     p.close();
   }
-  return new opentype.Glyph({ name: 'u' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0'), unicode: ch.codePointAt(0), advanceWidth: Math.round((h.rong + 2 * BEN) * U), path: p });
+  return p;
 }
 
 /* ---------- Bảng chữ ---------- */
 const THUONG = [...'aăâbcdđeêghiklmnoôơpqrstuưvxy'], HOA = [...'AĂÂBCDĐEÊGHIKLMNOÔƠPQRSTUƯVXY'], SO = [...'0123456789'];
 const DAU = ['́', '̀', '̉', '̃', '̣'];
 const NGUYEN_AM = [...'aăâeêioôơuưyAĂÂEÊIOÔƠUƯY'];
-const DS = [...THUONG, ...HOA, ...SO, ...NGUYEN_AM.flatMap(v => DAU.map(d => (v + d).normalize('NFC')))];
+const DS = [...new Set([...THUONG, ...HOA, ...SO, ...Object.keys(ctx.SC.CHU), ...NGUYEN_AM.flatMap(v => DAU.map(d => (v + d).normalize('NFC')))])];
+/* Dấu tổ hợp (gõ kiểu "Unicode tổ hợp": chữ và dấu là hai ký tự). Hình dấu dùng khi không ghép được; bình thường bảng ghép (ccmp) thay cả cụm bằng chữ dựng sẵn. */
+const DAU_TO_HOP = { '\u0300': 'dauhuyen', '\u0301': 'dausac', '\u0303': 'daunga', '\u0309': 'dauhoi', '\u0323': 'daunang', '\u0302': 'mu', '\u0306': 'trang', '\u031B': 'rau' };
+const MU = { '\u0302': { a: 'â', e: 'ê', o: 'ô', A: 'Â', E: 'Ê', O: 'Ô' }, '\u0306': { a: 'ă', A: 'Ă' }, '\u031B': { o: 'ơ', u: 'ư', O: 'Ơ', U: 'Ư' } };
 
+function dungDauToHop(ma, kieu) {
+  /* Lấy nét dấu từ chữ mẫu: dấu thanh trên chữ a (dấu nặng dưới), dấu mũ của â, dấu trăng của ă, dấu râu của ơ; dời về giữa chữ, độ rộng 0 */
+  const mau = { dauhuyen: 'à', dausac: 'á', daunga: 'ã', dauhoi: 'ả', daunang: 'ạ', mu: 'â', trang: 'ă', rau: 'ơ' }[DAU_TO_HOP[ma]];
+  const h = hinh(mau); if (!h) return null;
+  const nets = h.nets.filter(n => n.dau);
+  const tam = h.rong / 2;
+  const tam2 = { rong: 0, nets: nets.map(n => ({ ...n, d: n.d.map(g => g.map((v, i) => i && i % 2 === 1 ? v - tam - BEN - 0.4 : v)) })) };
+  const g = dungTuHinh(tam2, kieu);
+  return new opentype.Glyph({ name: 'uni' + ma.codePointAt(0).toString(16).toUpperCase().padStart(4, '0'), unicode: ma.codePointAt(0), advanceWidth: 0, path: g });
+}
 function taoFont(kieu) {
   const glyphs = [
     new opentype.Glyph({ name: '.notdef', unicode: 0, advanceWidth: Math.round(0.8 * U), path: new opentype.Path() }),
@@ -123,6 +139,7 @@ function taoFont(kieu) {
   ];
   const thieu = [];
   for (const ch of DS) { const g = dungChu(ch, kieu); if (g) glyphs.push(g); else thieu.push(ch); }
+  for (const ma of Object.keys(DAU_TO_HOP)) { const g = dungDauToHop(ma, kieu); if (g) glyphs.push(g); }
   const font = new opentype.Font({
     familyName: kieu.ten, styleName: 'Regular', unitsPerEm: EM,
     ascender: Math.round(3.75 * U), descender: -Math.round(1.6 * U),
@@ -136,14 +153,24 @@ function taoFont(kieu) {
     glyphs,
   });
   font.names.windows = font.names.windows || {};
-  font.tables.os2 = Object.assign(font.tables.os2 || {}, { sxHeight: U, sCapHeight: Math.round(2.5 * U) });
+  font.tables.os2 = Object.assign(font.tables.os2 || {}, { sxHeight: U, sCapHeight: Math.round(2.5 * U), ulCodePageRange1: (1 << 0) | (1 << 8), ulCodePageRange2: 0 });
+  /* Bảng ghép (ccmp): chữ + dấu tổ hợp → chữ dựng sẵn, để văn bản gõ kiểu tổ hợp vẫn hiện đúng */
+  const so = ch => glyphs.findIndex(g => g.unicode === ch.codePointAt(0));
+  let soGhep = 0;
+  const ghep = (thanhPhan, kq) => { const ds = thanhPhan.map(so), d = so(kq); if (ds.every(i => i > 0) && d > 0) { font.substitution.add('ccmp', { sub: ds, by: d }); soGhep++; } };
+  for (const [maMu, bang] of Object.entries(MU)) for (const [goc, co] of Object.entries(bang)) {
+    ghep([goc, maMu], co);
+    for (const dt of DAU) ghep([goc, maMu, dt], (co + dt).normalize('NFC'));
+  }
+  for (const v of NGUYEN_AM) for (const dt of DAU) ghep([v, dt], (v + dt).normalize('NFC'));
+  glyphs.soGhep = soGhep;
   const ra = path.join(GOC, 'font', kieu.file);
   fs.mkdirSync(path.dirname(ra), { recursive: true });
   fs.writeFileSync(ra, Buffer.from(font.toArrayBuffer()));
-  return { file: kieu.file, soChu: glyphs.length - 3, thieu, kb: Math.round(fs.statSync(ra).size / 1024) };
+  return { file: kieu.file, soChu: glyphs.length - 3, soGhep: glyphs.soGhep, thieu, kb: Math.round(fs.statSync(ra).size / 1024) };
 }
 
 for (const k of Object.values(KIEU)) {
   const kq = taoFont(k);
-  console.log(`Đã tạo font/${kq.file}: ${kq.soChu} chữ, ${kq.kb} KB${kq.thieu.length ? ', thiếu: ' + kq.thieu.join(' ') : ''}`);
+  console.log(`Đã tạo font/${kq.file}: ${kq.soChu} ký tự, ${kq.soGhep} cụm ghép dấu, ${kq.kb} KB${kq.thieu.length ? ', thiếu: ' + kq.thieu.join(' ') : ''}`);
 }

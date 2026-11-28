@@ -61,7 +61,7 @@ function baoThieuTH(ch) {
   /* Báo một lần sau khi vẽ xong (không báo lúc đang xuất PDF chạy ngầm) */
   if (typeof toast === "function" && typeof document !== "undefined" && !(typeof exporting !== "undefined" && exporting)) {
     clearTimeout(_thBaoThieu);
-    _thBaoThieu = setTimeout(() => toast(`Kiểu Sao Mai chưa có hình cho: ${[...TH_THIEU].join(" ")} (f, j, w, z sẽ có ở bản sau). Các chữ này được bỏ qua.`), 400);
+    _thBaoThieu = setTimeout(() => toast(`Kiểu Sao Mai chưa có hình cho: ${[...TH_THIEU].join(" ")}. Các chữ này được bỏ qua.`), 400);
   }
 }
 /* ================== NỐI CHỮ TRONG MỘT TIẾNG ==================
